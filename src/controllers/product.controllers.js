@@ -30,36 +30,19 @@ const getAll = catchError(async (req, res) => {
     return res.json(results);
 });
 
-// Obtener el precio especial para el cliente determinado y la marca del producto
-const getProductPrice = catchError(async (req, res) => {
-    const { user_Id, nombre_producto } = req.params;
-    // Buscar el producto por su nombre
-    const product = await Product.findOne({
-        where: { name: nombre_producto }
-    });
-    if (!product) return res.sendStatus(404); // Si no se encuentra el producto, devolver 404
-
-    let specialPrice = product.price; // Precio base
-
-    // Buscar si hay un precio especial para el usuario y la marca del producto
-    const specialPriceRecord = await SpecialPrice.findOne({
-        where: {
-            user_Id,
-            productId: product.id // Suponiendo que tengas una tabla que relaciona precios especiales con productos
-        }
-    });
-
-    if (specialPriceRecord) {
-        specialPrice = specialPriceRecord.price; // Si se encuentra un precio especial, actualizar el precio especial
-    }
-
-    // Devolver el precio especial o el precio base si no hay precio especial
-    return res.json({ specialPrice });
-});
-
 
 const create = catchError(async(req, res) => {
-    const result = await Product.create(req.body);
+
+    const {name, inStock, brand, price, categoryId, userId } = req.body;
+
+    const result = await Product.create({
+        name,
+        inStock,
+        brand,
+        price,
+        categoryId,
+        userId
+    });
     return res.status(201).json(result);
 });
 
@@ -88,7 +71,6 @@ const update = catchError(async(req, res) => {
 
 module.exports = {
     getAll,
-    getProductPrice,
     create,
     getOne,
     remove,

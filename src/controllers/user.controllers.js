@@ -7,13 +7,12 @@ const getAll = catchError(async(req, res) => {
 });
 
 const create = catchError(async(req, res) => {
-    const { email, password, firstName, lastName, phone } = req.body;
+    const { firstName, lastName, specialPriceId } = req.body;
     const result = await User.create({
-        email,
-        password,
         firstName,
-        lastName,
-        phone,
+        lastName, 
+        specialPriceId
+
     });
     return res.status(201).json(result);
 });
@@ -34,12 +33,12 @@ const remove = catchError(async(req, res) => {
 const update = catchError(async(req, res) => {
     const { id } = req.params;
     const { firstName, lastName } = req.body;
-    const result = await User.update(
+    const resultado = await User.update(
         {firstName, lastName },
         { where: {id}, returning: true }
     );
-    if(result[0] === 0) return res.sendStatus(404);
-    return res.json(result[1][0]);
+    if(resultado[0] === 0) return res.sendStatus(404);
+    return res.json(resultado[1][0]);
 });
 
 

@@ -17,5 +17,10 @@ Product.belongsTo(User)
 Product.hasMany(SpecialPrice);
 SpecialPrice.belongsTo(Product)
 
+SpecialPrice.hasMany(User);
+User.belongsTo(SpecialPrice)
+
+SpecialPrice.belongsToMany(User, { through: "SpecialUser" });
+User.belongsToMany(SpecialPrice, { through: "SpecialUser" });
 
 

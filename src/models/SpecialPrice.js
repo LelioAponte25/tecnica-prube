@@ -8,13 +8,14 @@ const SpecialPrice = sequelize.define('specialPrice', {
     allowNull: false
   },
   startDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false
   },
   endDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: true
   }
+
 });
 
 module.exports = SpecialPrice;
